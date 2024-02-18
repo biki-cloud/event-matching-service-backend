@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+boto3
+pytest
+fastapi[testclient]
+httpx[http2]
+python-jose[cryptography]
+jose
+passlib
+pynamodb
