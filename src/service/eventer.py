@@ -4,8 +4,8 @@ from uuid import UUID, uuid4
 from fastapi import HTTPException
 
 from pydantic import BaseModel, Field
-from src.models.eventer import EventerModel, EventerPynamoModel
-from src.models.eventer import EventerGetSuccessResponse, EventerRegisterSuccessResponse, EventerUpdateSuccessResponse, EventerDeleteSuccessResponse
+from src.model.eventer import EventerModel, EventerPynamoModel
+from src.model.eventer import EventerGetSuccessResponse, EventerRegisterSuccessResponse, EventerUpdateSuccessResponse, EventerDeleteSuccessResponse
 from src.repository.eventer import EventerRepository
 
 

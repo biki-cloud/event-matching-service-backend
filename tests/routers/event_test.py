@@ -2,19 +2,19 @@
 EventRouterのテスト
 dynamoDBからの返答はモックを使って擬似的に作成.
 主にrouter, domain層のテストを行う
-router <-> domain <-> repository
+router <-> service <-> repository
 """
 
 from fastapi.testclient import TestClient
 from main import app
 from uuid import uuid4
 from unittest.mock import patch
-from src.domain.event import EventDomain, EventModel
+from src.service.event import EventService, EventModel
 
 # テストクライアントを作成
 client = TestClient(app)
 
-@patch.object(EventDomain, 'register_event')
+@patch.object(EventService, 'register_event')
 def test_register_event(mock_domain_register_event):
     id = str(uuid4())
     mock_domain_register_event.return_value = EventModel(
@@ -39,7 +39,7 @@ def test_register_event(mock_domain_register_event):
     assert data["event_state"] == "draft"
     assert data["id"] == id
 
-@patch.object(EventDomain, 'get_all')
+@patch.object(EventService, 'get_all')
 def test_get_all_event(mock_domain_get_all):
     mock_domain_get_all.return_value = [
         {
@@ -64,7 +64,7 @@ def test_get_all_event(mock_domain_get_all):
     assert data[0]["event_name"] == "Test Event 1"
     assert data[1]["event_name"] == "Test Event 2"
 
-@patch.object(EventDomain, 'update_event')
+@patch.object(EventService, 'update_event')
 def test_update_event(mock_domain_update_event):
     id = str(uuid4())
     mock_domain_update_event.return_value = {
@@ -90,7 +90,7 @@ def test_update_event(mock_domain_update_event):
     assert data["event_state"] == "open"
     assert data["id"] == id
 
-@patch.object(EventDomain, 'delete_event')
+@patch.object(EventService, 'delete_event')
 def test_delete_event(mock_domain_delete_event):
     id = str(uuid4())
     mock_domain_delete_event.return_value = {}

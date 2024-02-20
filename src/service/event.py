@@ -17,7 +17,7 @@ class EventModel(BaseModel):
     eventer_id: Union[UUID, None] = Field(default=None, description="イベントID", example="123e4567-e89b-12d3-a456-426614174000")
 
 
-class EventDomain():
+class EventService:
     def __init__(self, repository: EventRepository) -> None:
         self.__repository = repository
 
@@ -25,7 +25,7 @@ class EventDomain():
         events = self.__repository.get_all()
         return [EventModel(**event) for event in events]
 
-    def get_event(self, id: str) -> EventModel:
+    def get_event(self, id: UUID) -> EventModel:
         return EventModel(**self.__repository.get_event(id))
     
     def get_event_by_eventer_id(self, eventer_id: str) -> List[EventModel]:

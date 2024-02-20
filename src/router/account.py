@@ -1,13 +1,13 @@
 from typing import List
 from fastapi import APIRouter, Body, Path, Query
-from src.domain.account import AccountDomain, AccountModel, AuthModel
+from src.service.account import AccountDomain, AccountModel, AuthModel
 from logging import getLogger
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel, Field
-from src.domain.account import AccountModel
+from src.service.account import AccountModel
 from src.repository.account import AccountRepository
 
 

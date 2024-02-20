@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Body, Path, Query
-from src.domain.eventer import EventerDomain, EventerModel, EventerRegisterSuccessResponse, EventerGetSuccessResponse, EventerDeleteSuccessResponse, EventerUpdateSuccessResponse
+from src.service.eventer import EventerDomain, EventerModel, EventerRegisterSuccessResponse, EventerGetSuccessResponse, EventerDeleteSuccessResponse, EventerUpdateSuccessResponse
 from logging import getLogger
 
 

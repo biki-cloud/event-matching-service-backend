@@ -4,7 +4,7 @@ from typing import List
 from pynamodb.exceptions import DoesNotExist
 from pynamodb.models import Model
 from pynamodb.exceptions import DoesNotExist
-from src.models.eventer import EventerModel, EventerPynamoModel, get_eventer_model_from_eventer_pynamo_model
+from src.model.eventer import EventerModel, EventerPynamoModel, get_eventer_model_from_eventer_pynamo_model
 
 
 

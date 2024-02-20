@@ -1,40 +1,40 @@
-import logging
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
-from src.models.eventer import get_eventer_pynamo_model
+from src.model.eventer import get_eventer_pynamo_model
 from src.internal.db import initialize_db
 
-from src.domain.event import EventDomain
+from src.service.event import EventService
 from src.repository.event import EventRepository
-from src.routers.event import EventRouter
+from src.router.event import EventRouter
 
-from src.domain.eventer import EventerDomain
+from src.service.eventer import EventerDomain
 from src.repository.eventer import EventerRepository
-from src.routers.eventer import EventerRouter
+from src.router.eventer import EventerRouter
 
-from src.domain.account import AccountDomain
+from src.service.account import AccountDomain
 from src.repository.account import AccountRepository
-from src.routers.account import AccountRouter
+from src.router.account import AccountRouter
 
 from src.settings.settings import get_api_description
 
+from logging import getLogger, DEBUG
 
 app = FastAPI(
     title="event-matching-service",
     description=get_api_description(),
-    version="0.0.1", 
+    version="0.0.1",
     summary="イベントマッチングサービスのAPI"
 )
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger = getLogger(__name__)
+logger.setLevel(DEBUG)
 
 db = initialize_db()
 
 event_repository = EventRepository(db, 'event')
-event_domain = EventDomain(event_repository)
+event_domain = EventService(event_repository)
 event_router = EventRouter(event_domain)
 app.include_router(event_router.router)
 
@@ -52,9 +52,10 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # TODO: 本番環境では許可するドメインを指定する
     allow_credentials=True,
-    allow_methods=["*"],  
-    allow_headers=["*"],  
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 @app.exception_handler(Exception)
 async def catch_all_exception_handler(request: Request, exc: Exception):
@@ -65,6 +66,7 @@ async def catch_all_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={"detail": "Internal Server Error"}
     )
+
 
 @app.get("/hello")
 def hello():

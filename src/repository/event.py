@@ -5,6 +5,7 @@ from boto3.resources.base import ServiceResource
 
 logger = getLogger(__name__)
 
+
 class EventRepository:
     def __init__(self, db: ServiceResource, table_name: str) -> None:
         self.__db = db
@@ -20,7 +21,7 @@ class EventRepository:
             return response['Item']
         except ClientError as e:
             raise ValueError(e.response['Error']['Message'])
-    
+
     def get_event_by_eventer_id(self, eventer_id: str) -> List[dict]:
         response = self.__table.scan(
             FilterExpression="eventer_id = :eventer_id",
@@ -56,13 +57,12 @@ class EventRepository:
         )
         return response
 
-
     def delete_event(self, id: str) -> dict:
         response = self.__table.delete_item(
             Key={'id': id}
         )
         return response
-    
+
     def search_event(self, event_name: str) -> List[dict]:
         response = self.__table.scan(
             FilterExpression="contains(event_name, :query)",
