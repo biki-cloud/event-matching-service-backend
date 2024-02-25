@@ -14,17 +14,17 @@ class EventService():
     def __init__(self, repository: EventRepository) -> None:
         self.__repository = repository
 
-    def get_all(self) -> List[EventModel]:
-        events = self.__repository.get_all()
-        return [EventModel(**event) for event in events]
+    def get_all(self) -> EventGetSuccessResponse:
+        events = self.__repository.get_all_events()
+        return EventGetSuccessResponse(data=[events])
 
     def get_event(self, id: str) -> EventGetSuccessResponse:
-        event = EventModel(**self.__repository.get_event(id))
+        event = self.__repository.get_event(id)
         return EventGetSuccessResponse(data=[event])
     
-    def get_event_by_eventer_id(self, eventer_id: str) -> List[EventModel]:
-        events = self.__repository.get_event_by_eventer_id(eventer_id)
-        return [EventModel(**event) for event in events]
+    def get_event_by_eventer_id(self, eventer_id: str) -> EventGetSuccessResponse:
+        events = self.__repository(eventer_id)
+        return EventGetSuccessResponse(data=events)
 
     def register_event(self, event: EventModel, eventer_id: str) -> EventRegisterSuccessResponse:
         event.id = str(uuid4())

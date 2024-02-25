@@ -5,7 +5,7 @@ from src.model.account_model import AccountModel, AccountPynamoModel, get_accoun
 
 class AccountRepository:
     def __init__(self, model_get_func: Callable) -> None:
-        self.__model = model_get_func()
+        self.__model: AccountPynamoModel = model_get_func()
 
     def get_all_accounts(self) -> List[AccountModel]:
         try:
