@@ -33,6 +33,7 @@ logger.setLevel(logging.DEBUG)
 
 db = initialize_db()
 
+
 event_repository = EventRepository(db, 'event')
 event_domain = EventDomain(event_repository)
 event_router = EventRouter(event_domain)
