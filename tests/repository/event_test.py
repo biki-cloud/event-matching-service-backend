@@ -6,7 +6,7 @@ import boto3
 from uuid import uuid4
 
 from moto import mock_dynamodb
-from src.repository.event import EventRepository
+from src.repository.event_repository import EventRepository
 
 # mock_dynamodbをアノテーションで使用することで関数内で作成したdynamodbリソースはモックになる
 @mock_dynamodb

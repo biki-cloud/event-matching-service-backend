@@ -3,12 +3,12 @@ from typing import List
 from fastapi import APIRouter, Body, Path, Query
 from fastapi import HTTPException
 
-from src.domain.event import EventDomain, EventModel
+from src.service.event_service import EventService, EventModel, EventRegisterSuccessResponse, EventGetSuccessResponse, EventUpdateSuccessResponse, EventDeleteSuccessResponse
 
 logger = getLogger(__name__)
 
 class EventRouter:
-    def __init__(self, event_domain: EventDomain) -> None:
+    def __init__(self, event_domain: EventService) -> None:
         self.__event_domain = event_domain
 
     @property
@@ -19,7 +19,7 @@ class EventRouter:
         def index_route():
             return 'Hello! Welcome to Event index route'
 
-        @api_router.post('/register/{eventer_id}', response_model=dict)
+        @api_router.post('/register/{eventer_id}', response_model=EventRegisterSuccessResponse)
         def register_event(event_model: EventModel = Body(...), eventer_id: str = Path(...)):
             return self.__event_domain.register_event(event_model, eventer_id)
         
@@ -27,7 +27,7 @@ class EventRouter:
         def get_all():
             return self.__event_domain.get_all()
 
-        @api_router.get('/get/{event_id}', response_model=EventModel)
+        @api_router.get('/get/{event_id}', response_model=EventGetSuccessResponse)
         def get_event(event_id: str = Path(...)):
             try:
                 return self.__event_domain.get_event(event_id)
@@ -41,11 +41,11 @@ class EventRouter:
             except KeyError:
                 raise HTTPException(status_code=400, detail='No event found')
 
-        @api_router.put('/update', response_model=dict)
+        @api_router.put('/update', response_model=EventUpdateSuccessResponse)
         def update_event(event_model: EventModel):
             return self.__event_domain.update_event(event_model)
 
-        @api_router.delete('/delete/{event_id}', response_model=dict)
+        @api_router.delete('/delete/{event_id}', response_model=EventDeleteSuccessResponse)
         def delete_event(event_id: str):
             return self.__event_domain.delete_event(event_id)
         

@@ -7,7 +7,7 @@ import boto3
 from uuid import uuid4
 
 from moto import mock_dynamodb
-from src.repository.eventer import EventerRepository
+from src.repository.eventer_repository import EventerRepository
 
 @mock_dynamodb
 def test_get_all_eventers():

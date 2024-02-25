@@ -3,20 +3,20 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
-from src.models.eventer import get_eventer_pynamo_model
+from src.model.eventer_model import get_eventer_pynamo_model
 from src.internal.db import initialize_db
 
-from src.domain.event import EventDomain
-from src.repository.event import EventRepository
-from src.routers.event import EventRouter
+from src.service.event_service import EventService
+from src.repository.event_repository import EventRepository
+from src.router.event_router import EventRouter
 
-from src.domain.eventer import EventerDomain
-from src.repository.eventer import EventerRepository
-from src.routers.eventer import EventerRouter
+from src.service.eventer_service import EventerService
+from src.repository.eventer_repository import EventerRepository
+from src.router.eventer_router import EventerRouter
 
-from src.domain.account import AccountDomain
-from src.repository.account import AccountRepository
-from src.routers.account import AccountRouter
+from src.service.account_service import AccountService
+from src.repository.account_repository import AccountRepository
+from src.router.account_router import AccountRouter
 
 from src.settings.settings import get_api_description
 
@@ -34,17 +34,17 @@ logger.setLevel(logging.DEBUG)
 db = initialize_db()
 
 event_repository = EventRepository(db, 'event')
-event_domain = EventDomain(event_repository)
+event_domain = EventService(event_repository)
 event_router = EventRouter(event_domain)
 app.include_router(event_router.router)
 
 eventer_repository = EventerRepository(get_eventer_pynamo_model)
-eventer_domain = EventerDomain(eventer_repository)
+eventer_domain = EventerService(eventer_repository)
 eventer_router = EventerRouter(eventer_domain)
 app.include_router(eventer_router.router)
 
 account_repository = AccountRepository(db, 'account')
-account_domain = AccountDomain(account_repository, eventer_repository)
+account_domain = AccountService(account_repository, eventer_repository)
 account_router = AccountRouter(account_domain)
 app.include_router(account_router.router)
 
