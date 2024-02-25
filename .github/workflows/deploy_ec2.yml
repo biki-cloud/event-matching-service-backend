@@ -3,6 +3,11 @@ name: DeployEC2
 
 # トリガーとなる GitHub イベント
 on:
+  # PRがマージされたら動作する
+  pull_request:
+   branches: [ main ]
+   types: [closed]
+   
   # workflow_dispatchを指定しておくとGitHubのコンソールから実行可能になる
   workflow_dispatch:
 
