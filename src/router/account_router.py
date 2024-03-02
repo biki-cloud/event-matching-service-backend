@@ -1,17 +1,20 @@
 from typing import List
 from fastapi import APIRouter, Body, Path, Query
-from src.service.account_service import AccountService, AccountRegisterSuccessResponse, AccountGetSuccessResponse, AccountUpdateSuccessResponse, AccountDeleteSuccessResponse
+from src.service.account_service import AccountService
 from logging import getLogger
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import JWTError, jwt
-from passlib.context import CryptContext
-from pydantic import BaseModel, Field
-from src.model.account_model import AccountModel, AccountRegisterSuccessResponse, AccountGetSuccessResponse, AccountUpdateSuccessResponse, AccountDeleteSuccessResponse
-from src.repository.account_repository import AccountRepository
-
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordRequestForm
+from src.model.account_model import (
+    AccountModel,
+    AuthModel,
+    AccountRegisterSuccessResponse,
+    AccountGetSuccessResponse,
+    AccountUpdateSuccessResponse,
+    AccountDeleteSuccessResponse
+)
 
 logger = getLogger(__name__)
+
 
 class AccountRouter:
     def __init__(self, account_domain: AccountService) -> None:
@@ -24,14 +27,10 @@ class AccountRouter:
         @router.post("/register", response_model=AccountRegisterSuccessResponse)
         def register_account(account: AccountModel = Body(...)):
             return self.__account_domain.register_account(account)
-        
-        @router.get("/all", response_model=List[AccountModel])
-        def get_all_accounts():
-            return self.__account_domain.get_all_accounts()
 
-        @router.get("/get/{account_id}", response_model=AccountGetSuccessResponse)
-        def get_account(account_id: str = Path(...)):
-            return self.__account_domain.get_account(account_id)
+        @router.get("/get", response_model=AccountGetSuccessResponse)
+        def get_accounts(account_id: str = Query(...)):
+            return self.__account_domain.get_accounts(account_id)
 
         @router.put("/edit", response_model=AccountUpdateSuccessResponse)
         def update_account(account: AccountModel = Body(...)):
@@ -40,11 +39,7 @@ class AccountRouter:
         @router.delete("/delete/{account_id}", response_model=AccountDeleteSuccessResponse)
         def delete_account(account_id: str = Path(...)):
             return self.__account_domain.delete_account(account_id)
-        
-        @router.get("/search", response_model=List[AccountModel])
-        def search_accounts(account_name: str = Query(...)):
-            return self.__account_domain.search_accounts(account_name)
-        
+
         @router.post("/auth/token", response_model=AuthModel)
         async def get_access_token_for_login(form_data: OAuth2PasswordRequestForm = Depends()):
             """
@@ -59,5 +54,5 @@ class AccountRouter:
             トークンで認証することが前提のエントリーポイント
             """
             return self.__account_domain.get_me(current_user.email)
-        
+
         return router

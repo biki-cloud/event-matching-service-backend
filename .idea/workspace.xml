@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="28b58d83-7472-406d-a8a1-51a85d72f041" name="Changes" comment="" />
+    <list default="true" id="28b58d83-7472-406d-a8a1-51a85d72f041" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/hibiki.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/internal/db.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/account_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/account_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/event_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/event_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/eventer_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/eventer_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/account_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/account_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/event_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/event_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/eventer_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/eventer_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/account_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/account_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/event_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/event_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/eventer_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/eventer_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/account_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/account_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/event_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/event_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/eventer_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/eventer_service.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,7 +51,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "refactor",
+    "git-widget-placeholder": "Merging main",
     "last_opened_file_path": "/Users/hibiki/workspace/miccle/event-matching-service-backend"
   }
 }]]></component>
