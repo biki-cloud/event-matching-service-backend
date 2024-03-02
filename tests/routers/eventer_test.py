@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from main import app
 from uuid import uuid4
 from unittest.mock import patch
-from src.repository.eventer import EventerRepository
+from src.repository.eventer_repository import EventerRepository
 
 # テストクライアントを作成
 client = TestClient(app)

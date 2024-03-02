@@ -1,27 +1,27 @@
 from typing import List
 from fastapi import APIRouter, Body, Path, Query
-from src.domain.account import AccountDomain, AccountModel, AuthModel
+from src.service.account_service import AccountService, AccountRegisterSuccessResponse, AccountGetSuccessResponse, AccountUpdateSuccessResponse, AccountDeleteSuccessResponse
 from logging import getLogger
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel, Field
-from src.domain.account import AccountModel
-from src.repository.account import AccountRepository
+from src.model.account_model import AccountModel, AccountRegisterSuccessResponse, AccountGetSuccessResponse, AccountUpdateSuccessResponse, AccountDeleteSuccessResponse
+from src.repository.account_repository import AccountRepository
 
 
 logger = getLogger(__name__)
 
 class AccountRouter:
-    def __init__(self, account_domain: AccountDomain) -> None:
+    def __init__(self, account_domain: AccountService) -> None:
         self.__account_domain = account_domain
 
     @property
     def router(self):
         router = APIRouter(prefix='/account', tags=['Account'])
 
-        @router.post("/register", response_model=AccountModel)
+        @router.post("/register", response_model=AccountRegisterSuccessResponse)
         def register_account(account: AccountModel = Body(...)):
             return self.__account_domain.register_account(account)
         
@@ -29,15 +29,15 @@ class AccountRouter:
         def get_all_accounts():
             return self.__account_domain.get_all_accounts()
 
-        @router.get("/get/{account_id}", response_model=AccountModel)
+        @router.get("/get/{account_id}", response_model=AccountGetSuccessResponse)
         def get_account(account_id: str = Path(...)):
             return self.__account_domain.get_account(account_id)
 
-        @router.put("/edit", response_model=AccountModel)
+        @router.put("/edit", response_model=AccountUpdateSuccessResponse)
         def update_account(account: AccountModel = Body(...)):
             return self.__account_domain.update_account(account)
 
-        @router.delete("/delete/{account_id}", response_model=dict)
+        @router.delete("/delete/{account_id}", response_model=AccountDeleteSuccessResponse)
         def delete_account(account_id: str = Path(...)):
             return self.__account_domain.delete_account(account_id)
         

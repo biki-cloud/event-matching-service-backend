@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock
-from src.domain.event import EventDomain, EventModel
-from src.repository.event import EventRepository
+from src.service.event_service import EventService, EventModel
+from src.repository.event_repository import EventRepository
 from uuid import uuid4
 
 @pytest.fixture
@@ -10,7 +10,7 @@ def event_repository():
 
 @pytest.fixture
 def event_domain(event_repository):
-    return EventDomain(repository=event_repository)
+    return EventService(repository=event_repository)
 
 def test_get_all(event_domain, event_repository):
     uuid1 = str(uuid4())

@@ -1,13 +1,13 @@
 from typing import List
 from fastapi import APIRouter, Body, Path, Query
-from src.domain.eventer import EventerDomain, EventerModel, EventerRegisterSuccessResponse, EventerGetSuccessResponse, EventerDeleteSuccessResponse, EventerUpdateSuccessResponse
+from src.service.eventer_service import EventerService, EventerModel, EventerRegisterSuccessResponse, EventerGetSuccessResponse, EventerDeleteSuccessResponse, EventerUpdateSuccessResponse
 from logging import getLogger
 
 
 logger = getLogger(__name__)
 
 class EventerRouter:
-    def __init__(self, eventer_domain: EventerDomain) -> None:
+    def __init__(self, eventer_domain: EventerService) -> None:
         self.__eventer_domain = eventer_domain
 
     @property
