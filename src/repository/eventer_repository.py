@@ -1,17 +1,17 @@
-from typing import Callable, List
-from boto3.resources.base import ServiceResource
+from typing import Callable, Union
 from typing import List
 from pynamodb.exceptions import DoesNotExist
-from pynamodb.models import Model
-from pynamodb.exceptions import DoesNotExist
-from src.model.eventer_model import EventerModel, EventerPynamoModel, get_eventer_model_from_eventer_pynamo_model
-
-
+from src.model.eventer_model import (
+    EventerModel,
+    EventerPynamoModel,
+    get_eventer_model_from_eventer_pynamo_model,
+    get_eventer_pynamo_model_from_eventer_model
+)
 
 
 class EventerRepository:
     def __init__(self, model_get_func: Callable) -> None:
-        self.__model = model_get_func()
+        self.__model: EventerPynamoModel = model_get_func()
 
     def get_all_eventers(self) -> List[EventerModel]:
         try:
@@ -41,11 +41,7 @@ class EventerRepository:
     
     def register_eventer(self, eventer: EventerModel) -> EventerModel:
         # PynamoDBモデルのインスタンスを作成
-        new_eventer = EventerPynamoModel(
-            id=eventer.id,
-            info=eventer.info,
-            account_id=eventer.account_id
-        )
+        new_eventer = get_eventer_pynamo_model_from_eventer_model(eventer)
         # DynamoDBに保存
         new_eventer.save()
 
@@ -71,7 +67,6 @@ class EventerRepository:
             # その他のエラー処理
             raise ValueError(f"An error occurred: {e}")
 
-
     def delete_eventer(self, id: str) -> bool:
         try:
             eventer = self.__model.get(hash_key=id)
@@ -79,14 +74,3 @@ class EventerRepository:
             return True
         except DoesNotExist:
             raise ValueError(f"Eventer with id {id} does not exist")
-
-    def search_eventers(self, eventer_name: str) -> List[EventerModel]:
-        # `scan`メソッドを使用して、`eventer_name`が指定された文字列を含むすべてのアイテムを検索します。
-        pynamo_eventers = self.__model.scan(self.__model.eventer_name.contains(eventer_name))
-        
-        eventers = []
-        for pynamodb_eventer in pynamo_eventers:
-            res = get_eventer_model_from_eventer_pynamo_model(pynamodb_eventer)
-            eventers.append(res)
-        
-        return eventers

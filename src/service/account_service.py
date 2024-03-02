@@ -1,21 +1,28 @@
-import os
-from typing import List, Optional, Union
-from uuid import UUID, uuid4
+from typing import List, Union
+from uuid import uuid4
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from jose import JWTError, jwt
 from datetime import timedelta
 from jose import JWTError, jwt
-from src.model.account_model import AccountDeleteSuccessResponse, AccountGetSuccessResponse, AccountModel, \
-    AccountRegisterSuccessResponse, AccountUpdateSuccessResponse, AuthModel
-from src.helper.auth import verify_password, get_password_hash, oauth2_scheme, SECRET_KEY, ALGORITHM, \
+from src.model.account_model import (
+    AccountDeleteSuccessResponse,
+    AccountGetSuccessResponse,
+    AccountModel,
+    AccountRegisterSuccessResponse,
+    AccountUpdateSuccessResponse,
+    AuthModel
+)
+from src.helper.auth import (
+    verify_password,
+    get_password_hash,
+    oauth2_scheme,
+    SECRET_KEY,
+    ALGORITHM,
     ACCESS_TOKEN_EXPIRE_MINUTES
+)
 from src.helper.auth import create_access_token
 
-from pydantic import BaseModel, Field
 from src.repository.account_repository import AccountRepository
-from src.service.eventer_service import EventerModel, EventerService
-from src.repository.eventer_repository import EventerRepository
 
 from logging import getLogger
 
@@ -31,31 +38,41 @@ class AccountService:
         account_data.id = str(uuid4())
         account_data.password = get_password_hash(account_data.password)
 
-        response = self.repository.register_account(account_data)
+        try:
+            response = self.repository.register_account(account_data)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"error occurred: {str(e)}")
         return AccountRegisterSuccessResponse(message="Account registered successfully", data=[response])
 
-    def get_account(self, account_id: str) -> AccountGetSuccessResponse:
-        account_data = self.repository.get_account(account_id)
-        return AccountGetSuccessResponse(message="Account get successfully", data=[account_data])
+    def get_accounts(self, account_id: Union[str, None] = None) -> AccountGetSuccessResponse:
+        try:
+            if account_id:
+                account_data = self.repository.get_account(account_id)
+                return AccountGetSuccessResponse(message="Account get successfully", data=[account_data])
+            else:
+                accounts: List[AccountModel] = self.repository.get_all_accounts()
+                response = AccountGetSuccessResponse(data=accounts)
+                return response
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"error occurred: {str(e)}")
 
     def update_account(self, account: AccountModel) -> AccountUpdateSuccessResponse:
-        updated_account_data = self.repository.update_account(account)
+        try:
+            updated_account_data = self.repository.update_account(account)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"error occurred: {str(e)}")
+
         return AccountUpdateSuccessResponse(message="Account updated successfully", data=[updated_account_data])
 
     def delete_account(self, account_id: str) -> AccountDeleteSuccessResponse:
-        self.repository.delete_account(account_id)
+        try:
+            self.repository.delete_account(account_id)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"error occurred: {str(e)}")
+
         return AccountDeleteSuccessResponse(
             message={"info": "Account deleted successfully", "deleted_account_id": str(account_id)}, data=[])
 
-    def get_all_accounts(self) -> AccountGetSuccessResponse:
-        accounts: List[AccountModel] = self.repository.get_all_accounts()
-        response = AccountGetSuccessResponse(data=accounts)
-        return response
-
-    def search_accounts(self, account_name: str) -> List[AccountModel]:
-        accounts: List[AccountModel] = self.repository(eventer_name)
-        response = EventerGetSuccessResponse(data=eventers)
-        return response
 
     async def get_current_user(self, token: str = Depends(oauth2_scheme)) -> AccountModel:
         credentials_exception = HTTPException(

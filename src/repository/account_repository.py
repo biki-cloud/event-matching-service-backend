@@ -1,6 +1,11 @@
 from typing import Callable, List
 from pynamodb.exceptions import DoesNotExist
-from src.model.account_model import AccountModel, AccountPynamoModel, get_account_model_from_account_pynamo_model
+from src.model.account_model import (
+    AccountModel,
+    AccountPynamoModel,
+    get_account_model_from_account_pynamo_model,
+    get_account_pynamo_model_from_account_model
+)
 
 
 class AccountRepository:
@@ -20,6 +25,9 @@ class AccountRepository:
 
         return accounts
 
+    def get_account_by_email(self, email):
+        pass
+
     def get_account(self, id: str) -> AccountModel:
         try:
             account = self.__model.get(hash_key=id)
@@ -29,11 +37,7 @@ class AccountRepository:
             raise ValueError(f"Account with id '{id}' not found")
 
     def register_account(self, account: AccountModel) -> AccountModel:
-        new_account = AccountPynamoModel(
-            id=account.id,
-            info=account.info,
-            account_id=account.account_id
-        )
+        new_account = get_account_pynamo_model_from_account_model(account)
         new_account.save()
         return account
 

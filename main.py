@@ -3,7 +3,6 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
-from src.model.eventer_model import get_eventer_pynamo_model
 
 from src.service.event_service import EventService
 from src.repository.event_repository import EventRepository

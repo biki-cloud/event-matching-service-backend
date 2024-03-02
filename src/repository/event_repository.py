@@ -1,23 +1,35 @@
 from typing import Callable, List
 from pynamodb.exceptions import DoesNotExist
-from src.model.event_model import EventModel, EventPynamoModel, get_event_model_from_event_pynamo_model
+from src.model.event_model import (
+    EventModel,
+    EventPynamoModel,
+    get_event_model_from_event_pynamo_model,
+    get_event_pynamo_model_from_event_model
+)
+
 
 class EventRepository:
     def __init__(self, model_get_func: Callable) -> None:
-        self.__model = model_get_func()
+        self.__model: EventPynamoModel = model_get_func()
 
     def get_all_events(self) -> List[EventModel]:
         try:
             pynamodb_events = list(self.__model.scan())
         except DoesNotExist:
             return []
-        
+
         events = []
         for pynamodb_event in pynamodb_events:
             res = get_event_model_from_event_pynamo_model(pynamodb_event)
             events.append(res)
-        
+
         return events
+
+    def get_event_by_eventer_id(self, eventer_id):
+        pass
+
+    def search_event(self, eventer_name):
+        pass
 
     def get_event(self, id: str) -> EventModel:
         try:
@@ -28,13 +40,7 @@ class EventRepository:
             raise ValueError(f"Event with id '{id}' not found")
 
     def register_event(self, event: EventModel) -> EventModel:
-        new_event = EventPynamoModel(
-            id=event.id,
-            name=event.name,
-            state=event.state,
-            info=event.info,
-            eventer_id=event.eventer_id
-        )
+        new_event = get_event_pynamo_model_from_event_model(event)
         new_event.save()
         return event
 
