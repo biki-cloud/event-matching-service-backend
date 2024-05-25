@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "rest_framework", # rest frameworkの設定
     'corsheaders', # corsの設定
     'api.hello_db', # hello_dbアプリケーションの設定
-    'api.events' # eventsアプリケーションの設定
+    'api.events', # eventsアプリケーションの設定
+    "drf_spectacular", # swaggerの設定
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,15 @@ LOGGING = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+# Swagger設定
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'プロジェクト名',
+    'DESCRIPTION': '詳細',
+    'VERSION': '1.0.0',
+    # api/schemaを表示しない
+    'SERVE_INCLUDE_SCHEMA': False,
+}

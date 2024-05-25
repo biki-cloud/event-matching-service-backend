@@ -42,3 +42,21 @@ class EventView(APIView):
         # 検証したデータを永続化する
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)
+    
+    def put(self, request, id, format=None):
+        """
+        商品を更新する
+        """
+        event = self.get_object(id)
+        serializer = EventSerializer(instance=event, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def delete(self, request, id, format=None):
+        """
+        商品を削除する
+        """
+        event = self.get_object(id)
+        event.delete()
+        return Response(status = status.HTTP_200_OK)

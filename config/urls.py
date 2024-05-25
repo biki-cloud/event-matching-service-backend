@@ -17,10 +17,31 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+# Swaggerの設定
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/hello/', include('api.hello.urls')),
     path('api/hello_db/', include('api.hello_db.urls')),
     path('api/', include('api.events.urls')),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # SwaggerUIの設定
+    # 今回は127.0.0.1/8000/api/docs にアクセスするとSwaggerUIが表示されるよう設定します
+    path(
+        "api/docs/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    # Redocの設定
+    # 今回は127.0.0.1/8000/api/redoc にアクセスするとRedocが表示されるよう設定します
+    path(
+        "api/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
 ]
