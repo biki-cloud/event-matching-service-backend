@@ -5,7 +5,7 @@ name: Deploy to AWS  # ワークフローの名前を定義します。
 on:  # このワークフローがトリガーされるイベントを定義します。
   push:  # pushイベントがトリガーとなります。
     branches:
-      - master  # masterブランチへのpushでワークフローが開始されます。
+      - main  # masterブランチへのpushでワークフローが開始されます。
 
 jobs:  # ワークフロー内で実行されるジョブを定義します。
   deploy:  # ジョブの名前を定義します。
@@ -16,5 +16,5 @@ jobs:  # ワークフロー内で実行されるジョブを定義します。
     steps:  # ジョブ内で実行されるステップを定義します。
       - name: Checkout  # ステップの名前を定義します。
         uses: actions/checkout@v4  # GitHubのリポジトリをチェックアウトします。
-      - run: docker compose -f docker-compose.yml build  # Docker Composeを使用してアプリケーションをビルドします。
-      - run: docker compose -f docker-compose.yml up -d  # Docker Composeを使用してアプリケーションを起動します。
+      - run: docker compose -f docker-compose.yaml build  # Docker Composeを使用してアプリケーションをビルドします。
+      - run: docker compose -f docker-compose.yaml up -d  # Docker Composeを使用してアプリケーションを起動します。
