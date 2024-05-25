@@ -10,7 +10,7 @@ from .serializers import EventSerializer
 
 class EventView(APIView):
 
-    # 商品操作に関する関数で共通で使用する商品取得関数
+    # イベント操作に関する関数で共通で使用する商品取得関数
     def get_object(self, pk):
         try:
             return Event.objects.get(pk=pk)

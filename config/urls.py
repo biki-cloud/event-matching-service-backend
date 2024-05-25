@@ -26,9 +26,8 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('api/hello/', include('api.hello.urls')),
-    path('api/hello_db/', include('api.hello_db.urls')),
     path('api/', include('api.events.urls')),
+    path('api/', include('api.accounts.urls')),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # SwaggerUIの設定
     # 今回は127.0.0.1/8000/api/docs にアクセスするとSwaggerUIが表示されるよう設定します
