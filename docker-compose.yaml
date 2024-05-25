@@ -1,12 +1,11 @@
+# docker-compose.yaml
+version: '3.8'
+
 services:
-  app-db:
-    image: mysql:8
-    command:
-      --collation-server=utf8mb4_0900_bin
-      --transaction-isolation=READ-COMMITTED
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      TZ: Asia/Tokyo
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
     ports:
-      - 53306:3306
+      - "8000:8000"
