@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework", # rest frameworkの設定
     'corsheaders', # corsの設定
+    'api.hello_db', # hello_dbアプリケーションの設定
+    'api.events' # eventsアプリケーションの設定
 ]
 
 MIDDLEWARE = [
