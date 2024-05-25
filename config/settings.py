@@ -150,10 +150,13 @@ LOGGING = {
     }
 }
 
-# CORS許可設定
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+
+# すべてのオリジンを許可する設定(開発時のみ)
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS許可設定(本番環境用)
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+# ]
 
 # Swagger設定
 REST_FRAMEWORK = {
