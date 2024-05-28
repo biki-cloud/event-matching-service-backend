@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,11 @@ SECRET_KEY = "django-insecure-s%dh--yr$zn1o%vf=$ztrvsvvr1g2-=48eg98*(8-mi%5jbbw1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '*',
+    '.vercel.app'
+]
 
 
 # Application definition
@@ -169,3 +174,14 @@ SPECTACULAR_SETTINGS = {
     # api/schemaを表示しない
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+
+application = get_wsgi_application()
+app = application
