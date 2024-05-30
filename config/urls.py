@@ -27,6 +27,8 @@ from drf_spectacular.views import (
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/', include('api.events.urls')),
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth/', include('djoser.urls.jwt')),
     path('api/', include('api.accounts.urls')),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # SwaggerUIの設定
