@@ -188,7 +188,7 @@ STATIC_ROOT = str(BASE_DIR / "staticfiles")
 MEDIA_URL = "/media/"
 
 # Cloudinaryを使用
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+# DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
