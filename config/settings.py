@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "drf_spectacular", # swaggerの設定
     'api.events', # eventsアプリケーションの設定
     'api.accounts', # accountsアプリケーションの設定
+    'api.posts', # postsアプリケーションの設定
     "rest_framework.authtoken", # トークン認証
     "djoser", # 認証ライブラリ
 ]
@@ -185,6 +186,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = "static/"
 STATIC_ROOT = str(BASE_DIR / "staticfiles")
 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 # Cloudinaryを使用
