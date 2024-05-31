@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 # Swaggerの設定
@@ -23,6 +24,7 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from .settings import MEDIA_ROOT, MEDIA_URL
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -32,6 +34,8 @@ urlpatterns = [
     path("api/auth/", include("djoser.urls.jwt")),
     # アカウント
     path('api/', include('api.accounts.urls')),
+    # 投稿
+    path("api/", include("api.posts.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # SwaggerUIの設定
     # 今回は127.0.0.1/8000/api/docs にアクセスするとSwaggerUIが表示されるよう設定します
@@ -47,4 +51,4 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
-]
+] + static(MEDIA_URL, document_root=MEDIA_ROOT)
